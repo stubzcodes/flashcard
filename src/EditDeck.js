@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { readDeck, updateDeck } from "../src/utils/api";
-import DeckForm from "./DeckForm"
 
 function EditDeck() {
   const history = useHistory();
   const { deckId } = useParams();
-  const [deck, setDeck] = useState({  name: "", description: "", });
+  const [deck, setDeck] = useState({ cards: [] });
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+  });
 
   useEffect(() => {
-    readDeck(deckId).then(setDeck);
+    loadDeck();
   }, [deckId]);
 
-  function submitHandler(updatedEditDeck) {
-    updateDeck(updatedEditDeck).then((response) =>  history.push(`/decks/${response.id}`))
-    // try {
-    //   const updatedDeck = { ...deck, ...formData };
-    //   await updateDeck(updatedDeck);
-    //   history.push(`/decks/${deckId}`);
-    // } catch (error) {
-    //   console.error("Error updating deck:", error);
-    // }
+  function loadDeck() {
+    try {
+      readDeck(deckId).then(setDeck);
+    } catch (error) {
+      console.error("Error loading deck:", error);
+    }
   }
 
-  function cancel() {
-    history.goBack()
+  function handleChange(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
-  const editData = deck.id ? (
-    <DeckForm
-        onCancel={cancel}
-        onSubmit={submitHandler}
-        initialState={deck}
-    />
-  ) : (
-    <p>Loading.....</p>
-  )
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    try {
+      const updatedDeck = { ...deck, ...formData };
+      await updateDeck(updatedDeck);
+      history.push(`/decks/${deckId}`);
+    } catch (error) {
+      console.error("Error updating deck:", error);
+    }
+  }
 
   return (
     <main className="container edit-view">
@@ -54,7 +56,42 @@ function EditDeck() {
       </nav>
 
       <h1>Edit Deck</h1>
-      {editData}
+
+      <form onSubmit={(event) => submitHandler(event)}>
+        <div className="mb5">
+          <label htmlFor="name">Name</label>
+          <br></br>
+          <input
+            className="name-input mb-3"
+            id="name"
+            type="text"
+            name="name"
+            onChange={handleChange}
+            value={formData.name}
+            placeholder={deck.name}
+          />
+        </div>
+
+        <div className="mb3">
+          <label htmlFor="description">Description</label>
+          <br></br>
+          <textarea
+            className="desc-input"
+            id="description"
+            type="textarea"
+            name="description"
+            onChange={handleChange}
+            value={formData.description}
+            placeholder={deck.description}
+          ></textarea>
+        </div>
+        <Link to={"/"} className="btn btn-secondary" title="Cancel">
+          Cancel
+        </Link>
+        <button className="btn btn-primary ml-2" type="submit">
+          Submit
+        </button>
+      </form>
     </main>
   );
 }

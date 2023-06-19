@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function CardList({ deck, onCardDelete }) {
+function CardList({ deck, deleteCardHandler }) {
   const { cards = [] } = deck;
 
   const listCards = cards.map((card) => (
@@ -27,7 +27,7 @@ function CardList({ deck, onCardDelete }) {
           <button
             className="btn btn-danger"
             title="Delete card"
-            onClick={() => onCardDelete(card.id)}
+            onClick={() => deleteCardHandler(card.id)}
           >
             <span className="oi oi-trash" />
           </button>

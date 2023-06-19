@@ -1,6 +1,6 @@
 import { Link, useParams, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { readCard, updateCard } from "../src/utils/api";
+import { readDeck, readCard, updateCard } from "../src/utils/api";
 
 function EditCard() {
   const history = useHistory();
@@ -14,7 +14,19 @@ function EditCard() {
 
   useEffect(() => {
     loadCard();
+    loadDeck();
   }, [deckId, cardId]);
+
+  async function loadDeck() {
+    try {
+      readDeck(deckId).then(setDeck);
+    } catch (error) {
+      console.error("Error loading deck:", error);
+    }
+  }
+
+  console.log(deck)
+
 
   async function loadCard() {
     try {

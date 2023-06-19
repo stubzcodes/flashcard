@@ -1,55 +1,12 @@
 {
   "decks": [
     {
-      "id": 1,
-      "name": "Rendering in React",
-      "description": "React's component structure allows for quickly building a complex web application that relies on DOM manipulation. ",
-      "front": "What's this stuff?",
-      "back": "Some stuff."
-    },
-    {
       "name": "React Router",
       "description": "React Router is a collection of navigational components that compose declaratively with your application.",
       "id": 2
-    },
-    {
-      "name": "All of the Stuff",
-      "description": "Here it is, tada!",
-      "id": 7
-    },
-    {
-      "name": "again",
-      "description": "again",
-      "id": 10
-    },
-    {
-      "name": "Blah blah",
-      "description": "blah blah",
-      "id": 11
-    },
-    {
-      "name": "The Problem Child",
-      "description": "All of them",
-      "id": 12
-    },
-    {
-      "name": "A New One",
-      "description": "Here it is",
-      "id": 13
-    },
-    {
-      "name": "Ted",
-      "description": "Ted",
-      "id": 14
     }
   ],
   "cards": [
-    {
-      "id": 3,
-      "front": "How do you pass data 'down' to a React child component?",
-      "back": "As properties or props",
-      "deckId": 1
-    },
     {
       "front": "What path will match the follow Route?\n<Route>\n  <NotFound />\n</Route>",
       "back": "All paths. A route with no path matches all URL's",
@@ -61,31 +18,6 @@
       "back": "Renders the first matching child <Route> ",
       "deckId": 2,
       "id": 5
-    },
-    {
-      "cards": [],
-      "front": "b",
-      "back": "b",
-      "deckId": 1,
-      "id": 7
-    },
-    {
-      "front": "What's this stuff?",
-      "back": "Some stuff",
-      "deckId": 7,
-      "id": 9
-    },
-    {
-      "front": "And this stuff?",
-      "back": "Some more stuff",
-      "deckId": 7,
-      "id": 10
-    },
-    {
-      "front": ";lgfd",
-      "back": "gfds",
-      "deckId": 7,
-      "id": 11
     }
   ]
 }

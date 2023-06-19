@@ -22,41 +22,45 @@ function DeckView() {
   function handleDelete() {
     if (window.confirm("Are you sure you want to delete this deck?")) {
       try {
-        deleteDeck(deck.id).then(() => history.push("/decks"));
+        deleteDeck(deck.id).then(() => history.push("/"));
       } catch (error) {
         console.error("Error deleting deck:", error);
       }
     }
   }
 
-  //   #deleteCardHandler here
   function deleteCardHandler(cardId) {
-    const confirmed = window.confirm(
-      "Delete this card?\n\nYou will not be able to recover it."
-    );
-    if (confirmed) {
-      console.log("deleteCardHandler", confirmed, cardId);
-      deleteCard(cardId).then(loadDeck);
+    if (window.confirm("Are you sure you want to delete this card?")) {
+      try {
+        deleteCard(cardId).then(loadDeck);
+      } catch (error) {
+        console.error("Error deleting card:", error);
+      }
     }
   }
 
+  //   #deleteCardHandler here
+
+  // cardList component below
+
+   // cardList component above
+
   return (
     <main className="container deck-view">
-      <nav aria-label="breadcrumb">
+      <nav className="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
             <Link to="/">
               <span className="oi oi-home" /> Home
             </Link>
           </li>
-          <li className="breadcrumb-item active" aria-current="page">
-            {deck.name}
-          </li>
+          <li className="breadcrumb-item active">{deck.name}</li>
         </ol>
       </nav>
+
       <div className="media mb-2">
         <div className="media-body">
-          <h5 className="mt-0">{deck.name}</h5>
+          <h5 className="mb-1">{deck.name}</h5>
           {deck.description}
         </div>
       </div>
@@ -81,10 +85,13 @@ function DeckView() {
       >
         <span className="oi oi-plus" /> Add Cards
       </Link>
-      <button className="btn btn-danger float-right" title="Delete deck">
-        <span className="oi oi-trash" onClick={handleDelete} />
+      <button className="btn btn-danger float-right" title="Delete deck" onClick={ () => handleDelete(deck.id)}>
+        <span className="oi oi-trash"/>
       </button>
-      <CardList deck={deck} onCardDelete={deleteCardHandler} />
+
+    <div className="Deck container">
+        <CardList deck={deck} deleteCardHandler={deleteCardHandler}/>
+    </div>
     </main>
   );
 }
