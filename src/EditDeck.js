@@ -15,9 +15,14 @@ function EditDeck() {
     loadDeck();
   }, [deckId]);
 
-  function loadDeck() {
+  async function loadDeck() {
     try {
-      readDeck(deckId).then(setDeck);
+      const response = await readDeck(deckId);
+      setDeck(response);
+      setFormData({
+        name: response.name,
+        description: response.description,
+      });
     } catch (error) {
       console.error("Error loading deck:", error);
     }
@@ -68,7 +73,6 @@ function EditDeck() {
             name="name"
             onChange={handleChange}
             value={formData.name}
-            placeholder={deck.name}
           />
         </div>
 
@@ -82,7 +86,6 @@ function EditDeck() {
             name="description"
             onChange={handleChange}
             value={formData.description}
-            placeholder={deck.description}
           ></textarea>
         </div>
         <Link to={"/"} className="btn btn-secondary" title="Cancel">

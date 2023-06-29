@@ -6,6 +6,8 @@ import DeckForm from "./DeckForm"
 
 function NewDeck() {
   const history = useHistory()
+  const submitLabel = "Submit"
+  const cancelLabel = "Cancel"
 
   function cancel() {
     history.goBack()
@@ -14,16 +16,6 @@ function NewDeck() {
   function submitHandler (deck) {
     //add new data to deck data
     createDeck(deck).then((response) => history.push(`/decks/${response.id}`)) //take user to new deck id page
-
-    // console.log("444444", event)
-    // event.preventDefault();
-    // //add new data to deck data
-    // const abortController = new AbortController();
-    // const response = await createDeck({ ...formData }, abortController.signal)
-    // console.log("8888888", response)
-    // //take user to new deck id page
-    // history.push(`/decks/${response.id}`)
-    // return response
     };
 
   return (
@@ -43,6 +35,8 @@ function NewDeck() {
      <DeckForm
         onCancel={cancel}
         onSubmit={submitHandler}
+        submitLabel={submitLabel}
+        cancelLabel={cancelLabel}
      />
     </main>
   );

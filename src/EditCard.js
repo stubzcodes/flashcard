@@ -25,12 +25,16 @@ function EditCard() {
     }
   }
 
-  console.log(deck)
 
 
   async function loadCard() {
     try {
-      readCard(cardId).then(setCard);
+      const response = await readCard(cardId);
+      setCard(response);
+      setFormData({
+        front: response.front,
+        back: response.back,
+      });
     } catch (error) {
       console.error("Error loading deck:", error);
     }
@@ -78,7 +82,6 @@ function EditCard() {
             type="textarea"
             name="front"
             value={formData.front}
-            placeholder={card.front}
             onChange={handleChange}
           />
         </div>
@@ -91,7 +94,6 @@ function EditCard() {
             type="textarea"
             name="back"
             value={formData.back}
-            placeholder={card.back}
             onChange={handleChange}
           />
         </div>

@@ -18,7 +18,6 @@ function Study() {
   useEffect(() => {
     readDeck(deckId).then(setDeck);
   }, [deckId]);
-  console.log(deck);
 
   if (cardCount <= 2) {
     return (

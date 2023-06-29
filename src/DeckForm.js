@@ -4,6 +4,8 @@ function DeckForm({
   onSubmit,
   onCancel,
   initialState = { name: "", description: "" },
+  submitLabel,
+  cancelLabel,
 }) {
   const [deck, setDeck] = useState(initialState);
 
@@ -53,10 +55,10 @@ function DeckForm({
             onClick={onCancel}
             className="btn btn-secondary mr-2"
           >
-            Cancel
+            {cancelLabel}
           </button>
           <button className="btn btn-primary" type="submit">
-            Submit
+            {submitLabel}
           </button>
         </fieldset>
       </form>
