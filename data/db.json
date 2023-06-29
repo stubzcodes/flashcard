@@ -172,6 +172,24 @@
       "back": "xxxx",
       "deckId": 1,
       "id": 27
+    },
+    {
+      "front": "a card",
+      "back": "card",
+      "deckId": 5,
+      "id": 28
+    },
+    {
+      "front": "card 2",
+      "back": "2",
+      "deckId": 5,
+      "id": 29
+    },
+    {
+      "front": "card 3",
+      "back": "3",
+      "deckId": 5,
+      "id": 30
     }
   ]
 }

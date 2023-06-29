@@ -19,10 +19,25 @@ function Study() {
     readDeck(deckId).then(setDeck); //loads deck infomation using deckId and sets current deck to that info
   }, [deckId]);
 
-  if (cardCount <= 2) { //if card count is less than 2, returns not enough cards header and add cards button
+  if (cardCount <= 2) { //if card count is less than 2, returns not enough cards headers, paragraph, and add cards button
     return (
       <div>
+        <nav className="breadcrumb">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <Link to="/">
+              <span className="oi oi-home" /> Home
+            </Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link to={`/decks/${deckId}`}>{deck.name}</Link>
+          </li>
+          <li className="breadcrumb-item active">Study</li>
+        </ol>
+      </nav>
+      <h1>{deck.name}: Study</h1>
         <h2>Not Enough Cards</h2>
+        <p>You need at least 3 cards to study. There are {cardCount} cards in this deck.</p>
         <Link to={`/decks/${deckId}/cards/new`} className="btn btn-primary">
           <span className="oi oi-plus" /> Add Cards
         </Link>

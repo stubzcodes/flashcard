@@ -41,10 +41,9 @@ function handleChange(event) {
         <fieldset>
           <div className="form-group">
             <label htmlFor="front">Front</label>
-            <input
+            <textarea
               className="form-control"
               id="front"
-              type="text"
               name="front"
               onChange={handleChange}
               value={card.front}
