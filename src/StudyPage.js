@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function StudyPage({deckId, name, children}) { 
+function StudyPage({ deckId, name, children }) { //breadcrumb nav and container for study card logic
   return (
     <main>
       <nav className="breadcrumb">

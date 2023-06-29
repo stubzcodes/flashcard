@@ -1,23 +1,19 @@
-.row-border {
-    border: 1px solid gray;
-    border-radius: 7px;
+/* height and width formatting for form inputs and text areas */
+.name-input {
+  width: 100%;
 }
 
-.name-input{
-    width: 100%;
+.desc-input {
+  width: 100%;
+  height: 200px;
 }
 
-.desc-input{
-    width: 100%;
-    height: 200px;
+.front-input {
+  width: 100%;
+  height: 75px;
 }
 
-.front-input{
-    width: 100%;
-    height: 75px;
-}
-
-.back-input{
-    width: 100%;
-    height: 75px;
+.back-input {
+  width: 100%;
+  height: 75px;
 }

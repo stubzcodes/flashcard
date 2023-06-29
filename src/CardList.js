@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function CardList({ deck, deleteCardHandler }) {
+    // Retrieves the cards array from the deck object
   const { cards = [] } = deck;
 
+  // Maps each card to a list item element with specific attributes and content
   const listCards = cards.map((card) => (
     <li
       key={card.id}

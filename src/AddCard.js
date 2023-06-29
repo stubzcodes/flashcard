@@ -1,48 +1,53 @@
-import { Link, useParams } from "react-router-dom";
-import React, { useState } from "react";
-import { readDeck, updateDeck, createCard } from "../src/utils/api";
-import { useEffect } from "react";
+import { Link, useParams, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { readDeck, createCard } from "../src/utils/api";
+import CardForm from "./CardForm";
 
 function AddCard() {
-  const [formData, setFormData] = useState({
+  const history = useHistory();
+  const { deckId } = useParams();
+  const [deck, setDeck] = useState({});
+  const [card, setCard] = useState({
     front: "",
     back: "",
   });
-  const { deckId } = useParams();
-  const [deck, setDeck] = useState({ cards: [] });
 
+  //calls loadDeck function
   useEffect(() => {
-    loadDeck();
+    loadDeck(deckId);
   }, [deckId]);
 
-  function loadDeck() {
+  //loads deck information using deckId as an argument, sets deck to loaded deck, adds error handler
+  async function loadDeck(deckId) {
     try {
-      readDeck(deckId).then(setDeck);
+      const loadedDeck = await readDeck(deckId);
+      setDeck(loadedDeck);
     } catch (error) {
       console.error("Error loading deck:", error);
     }
   }
 
-  function handleChange(event) {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+  //handler for cancel button
+  function cancel() {
+    history.push(`/decks/${deckId}`);
   }
 
-  async function submitHandler(event) {
-    event.preventDefault();
-
+  //handler for submit button
+  //calls createCard from utils using deckId and card
+  //clears form for reuse
+  //adds error handler
+  async function submitHandler(card) {
     try {
-      await createCard(deck.id, formData);
-      setFormData({
-        front: "",
-        back: "",
-      });
+      await createCard(deckId, card);
+      setCard({ front: "", back: "" });
     } catch (error) {
-      console.error("Error updating deck:", error);
+      console.error("Error creating card:", error);
     }
   }
 
   return (
     <main>
+      {/* breadcrumb navigation */}
       <nav className="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -56,47 +61,16 @@ function AddCard() {
           <li className="breadcrumb-item active">Add Card</li>
         </ol>
       </nav>
-
+      {/* heading with deck name */}
       <h1>{`${deck.name}: Add Card`}</h1>
-
-      <form onSubmit={submitHandler}>
-        <div className="mb5">
-          <label htmlFor="front">Front</label>
-          <br></br>
-          <textarea
-            className="front-input mb-3"
-            id="front"
-            type="textarea"
-            name="front"
-            value={formData.front}
-            placeholder="Front side of card"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb5">
-          <label htmlFor="back">Back</label>
-          <br></br>
-          <textarea
-            className="back-input mb-3"
-            id="back"
-            type="textarea"
-            name="back"
-            value={formData.back}
-            placeholder="Back side of card"
-            onChange={handleChange}
-          />
-        </div>
-        <Link
-          to={`/decks/${deckId}`}
-          className="btn btn-secondary"
-          title="Done"
-        >
-          Done
-        </Link>
-        <button className="btn btn-primary ml-2" type="submit">
-          Save
-        </button>
-      </form>
+      {/* returns card form component */}
+      <CardForm
+        onSubmit={submitHandler}
+        onCancel={cancel}
+        submitLabel={"Save"}
+        cancelLabel={"Done"}
+        initialState={card}
+      />
     </main>
   );
 }

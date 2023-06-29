@@ -1,62 +1,62 @@
 import { Link, useParams, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { readDeck, readCard, updateCard } from "../src/utils/api";
+import CardForm from "./CardForm";
 
 function EditCard() {
   const history = useHistory();
   const { deckId, cardId } = useParams();
   const [deck, setDeck] = useState({ cards: [] });
-  const [card, setCard] = useState({});
-  const [formData, setFormData] = useState({
+  const [card, setCard] = useState({
     front: "",
     back: "",
+    deckId: Number(deckId),
+    id: Number(cardId),
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    loadCard();
+  useEffect(() => {//loads deck using readDeck and sets that information as setDeck
+    async function loadDeck() {
+      try {
+        const loadedDeck = await readDeck(deckId);
+        setDeck(loadedDeck);
+      } catch (error) {
+        console.error("Error loading deck:", error);
+      }
+    }
+
+    async function loadCard() {
+      try {
+        const loadedCard = await readCard(cardId); //loads card using readDeck and sets that information as loadedCard
+        setCard(loadedCard);
+        setIsLoading(false);//trouble shooting toggle to make sure information is loading properly
+      } catch (error) {
+        console.error("Error loading card:", error);
+      }
+    }
+    //calls loadDeck and loadCard with deckId and cardId as dependencies
     loadDeck();
+    loadCard();
   }, [deckId, cardId]);
 
-  async function loadDeck() {
-    try {
-      readDeck(deckId).then(setDeck);
-    } catch (error) {
-      console.error("Error loading deck:", error);
-    }
-  }
-
-
-
-  async function loadCard() {
-    try {
-      const response = await readCard(cardId);
-      setCard(response);
-      setFormData({
-        front: response.front,
-        back: response.back,
-      });
-    } catch (error) {
-      console.error("Error loading deck:", error);
-    }
-  }
-
-  function handleChange(event) {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  }
-
-  async function submitHandler(event) {
-    event.preventDefault();
-
-    try {
-      const updatedCard = { ...card, ...formData };
-      await updateCard(updatedCard);
+  function submitHandler(updatedCard) { //submit handler updates card and sends user back to deck page
+    updateCard(updatedCard).then(() => {
       history.push(`/decks/${deckId}`);
-    } catch (error) {
-      console.error("Error updating card:", error);
-    }
+    });
   }
 
-  return (
+  function cancel() {
+    history.push(`/decks/${deckId}`); //cancel sends user back to deck page without changing card information
+  }
+
+  if (isLoading) { //trouble shooting ternary
+    return (
+      <div>
+        <h1>Loading</h1>
+      </div>
+    );
+  }
+  return ( //if information is loaded, loads jsx
     <main>
       <nav className="breadcrumb">
         <ol className="breadcrumb">
@@ -72,42 +72,14 @@ function EditCard() {
         </ol>
       </nav>
       <h1>Edit Card</h1>
-      <form onSubmit={submitHandler}>
-        <div className="mb5">
-          <label htmlFor="front">Front</label>
-          <br></br>
-          <textarea
-            className="front-input mb-3"
-            id="front"
-            type="textarea"
-            name="front"
-            value={formData.front}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb5">
-          <label htmlFor="back">Back</label>
-          <br></br>
-          <textarea
-            className="back-input mb-3"
-            id="back"
-            type="textarea"
-            name="back"
-            value={formData.back}
-            onChange={handleChange}
-          />
-        </div>
-        <Link
-          to={`/decks/${deckId}`}
-          className="btn btn-secondary"
-          title="Done"
-        >
-          Cancel
-        </Link>
-        <button className="btn btn-primary ml-2" type="submit">
-          Submit
-        </button>
-      </form>
+
+      <CardForm
+        onSubmit={submitHandler}
+        onCancel={cancel}
+        submitLabel={"Submit"}
+        cancelLabel={"Cancel"}
+        initialState={card}
+      />
     </main>
   );
 }

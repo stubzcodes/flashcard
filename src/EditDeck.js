@@ -1,44 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { readDeck, updateDeck } from "../src/utils/api";
+import DeckForm from "./DeckForm";
 
 function EditDeck() {
   const history = useHistory();
   const { deckId } = useParams();
   const [deck, setDeck] = useState({ cards: [] });
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-  });
 
   useEffect(() => {
-    loadDeck();
+    loadDeck(); //calls loadDeck with deckId dependency
   }, [deckId]);
 
   async function loadDeck() {
+    //loads deck information with readDeck, and sets that information to setDeck with the response
     try {
-      const response = await readDeck(deckId);
+      const response = await readDeck(deckId); 
       setDeck(response);
-      setFormData({
-        name: response.name,
-        description: response.description,
-      });
     } catch (error) {
       console.error("Error loading deck:", error);
     }
   }
 
-  function handleChange(event) {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+  function cancel() {
+    history.goBack() //sends user back a page when cancel button is pressed
   }
 
-  async function submitHandler(event) {
-    event.preventDefault();
-
+  async function submitHandler(submittedDeck) {
     try {
-      const updatedDeck = { ...deck, ...formData };
-      await updateDeck(updatedDeck);
-      history.push(`/decks/${deckId}`);
+      await updateDeck(submittedDeck); //updates deck using api function and submittedDeck argument
+      history.push(`/decks/${deckId}`); //sends user to deck page
     } catch (error) {
       console.error("Error updating deck:", error);
     }
@@ -62,39 +53,13 @@ function EditDeck() {
 
       <h1>Edit Deck</h1>
 
-      <form onSubmit={(event) => submitHandler(event)}>
-        <div className="mb5">
-          <label htmlFor="name">Name</label>
-          <br></br>
-          <input
-            className="name-input mb-3"
-            id="name"
-            type="text"
-            name="name"
-            onChange={handleChange}
-            value={formData.name}
-          />
-        </div>
-
-        <div className="mb3">
-          <label htmlFor="description">Description</label>
-          <br></br>
-          <textarea
-            className="desc-input"
-            id="description"
-            type="textarea"
-            name="description"
-            onChange={handleChange}
-            value={formData.description}
-          ></textarea>
-        </div>
-        <Link to={"/"} className="btn btn-secondary" title="Cancel">
-          Cancel
-        </Link>
-        <button className="btn btn-primary ml-2" type="submit">
-          Submit
-        </button>
-      </form>
+      {deck.id && <DeckForm 
+        submitLabel={"Submit"} 
+        cancelLabel={"Cancel"}
+        onCancel={cancel}
+        onSubmit={submitHandler}
+        initialState={deck}
+        />}
     </main>
   );
 }

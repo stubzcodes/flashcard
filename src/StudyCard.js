@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-function StudyCard({card={}, heading, children}) {
+function StudyCard({ card = {}, heading, children }) {
   const [viewSide, setViewSide] = useState("front");
   const [flipped, setFlipped] = useState(false);
-  const viewNext = {front: "back", back: "front"}
+  const viewNext = { front: "back", back: "front" };
 
   function handleFlipped() {
-    setViewSide((prevState) => viewNext[prevState])
-    setFlipped(true);
+    setViewSide((prevState) => viewNext[prevState]);
+    setFlipped(true); //flips
   }
 
   useEffect(() => {
     setViewSide("front");
     setFlipped(false);
-  }, [card])
-
+  }, [card]); //unflips
 
   return (
     <div className={`card ${viewSide} study-card`}>

@@ -7,22 +7,24 @@ function DeckForm({
   submitLabel,
   cancelLabel,
 }) {
+  // Declares state variable deck with initial state initialState
   const [deck, setDeck] = useState(initialState);
 
-  function handleChange({ target: {name, value} }){
+  function handleChange({ target: { name, value } }) {
     setDeck((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }));// Updates the deck state by merging the previous state with the new name-value pair
+
+  }
 
   function submitHandler(event) {
     event.preventDefault();
-    event.stopPropagation();
-    onSubmit(deck);
+    onSubmit(deck);// Calls the onSubmit function with the deck state as the argument
+
   }
   return (
-    <>
+    <div>
       <form onSubmit={submitHandler}>
         <fieldset>
           <div className="form-group">
@@ -62,7 +64,7 @@ function DeckForm({
           </button>
         </fieldset>
       </form>
-    </>
+    </div>
   );
 }
 

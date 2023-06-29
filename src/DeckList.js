@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { listDecks, deleteDeck } from "../src/utils/api";
 
 function DeckList() {
-  const [decks, setDecks] = useState([]);
+  const [decks, setDecks] = useState([]); // Declares state variable decks with an empty array
 
   useEffect(loadDecks, []);
 
   function handleDelete(deckId) {
     if (window.confirm("Are you sure you want to delete this deck?")) {
       try {
-        deleteDeck(deckId).then(loadDecks);
+        deleteDeck(deckId).then(loadDecks);//calls deleteDeck with deckId as an argument and then call loadDecks to reload the deck list
       } catch (error) {
         console.error("Error deleting deck:", error);
       }
@@ -19,14 +19,15 @@ function DeckList() {
 
   function loadDecks() {
     try {
-      listDecks().then(setDecks);
+      listDecks().then(setDecks); //Calls listDecks() and sets the result to decks using the setDecks function
+
     } catch (error) {
       console.error("Error loading decks:", error);
     }
   }
 
-  const listOfDeck = decks.map((deck) => (
-    <li 
+  const listOfDeck = decks.map((deck) => ( //maps decks to an array of JSX elements
+    <li
       key={deck.id}
       className="list-group-item list-group-item-action flex-column align-items-start"
     >

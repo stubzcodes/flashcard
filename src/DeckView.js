@@ -4,14 +4,14 @@ import { readDeck, deleteDeck, deleteCard } from "../src/utils/api";
 import CardList from "./CardList";
 
 function DeckView() {
-  const history = useHistory();
-  const { deckId } = useParams();
+  const history = useHistory(); //sets history variable to useHistory function
+  const { deckId } = useParams(); //allows code to find deckId using useParams
 
-  const [deck, setDeck] = useState({ cards: [] });
+  const [deck, setDeck] = useState({ cards: [] }); 
 
   useEffect(loadDeck, [deckId]);
 
-  function loadDeck() {
+  function loadDeck() {//loads deck using readDeck function from utils, then sets that data as setDeck/deck
     try {
       readDeck(deckId).then(setDeck);
     } catch (error) {
@@ -22,7 +22,7 @@ function DeckView() {
   function handleDelete() {
     if (window.confirm("Are you sure you want to delete this deck?")) {
       try {
-        deleteDeck(deck.id).then(() => history.push("/"));
+        deleteDeck(deck.id).then(() => history.push("/")); //deletes deck using deleteDeck function and deck.id, then send user back to home
       } catch (error) {
         console.error("Error deleting deck:", error);
       }
@@ -32,18 +32,13 @@ function DeckView() {
   function deleteCardHandler(cardId) {
     if (window.confirm("Are you sure you want to delete this card?")) {
       try {
-        deleteCard(cardId).then(loadDeck);
+        //deletes card using deleteCard function with cardId as argument, then uses loadDeck to pull deck information
+        deleteCard(cardId).then(loadDeck); 
       } catch (error) {
         console.error("Error deleting card:", error);
       }
     }
   }
-
-  //   #deleteCardHandler here
-
-  // cardList component below
-
-   // cardList component above
 
   return (
     <main className="container deck-view">
@@ -85,13 +80,17 @@ function DeckView() {
       >
         <span className="oi oi-plus" /> Add Cards
       </Link>
-      <button className="btn btn-danger float-right" title="Delete deck" onClick={ () => handleDelete(deck.id)}>
-        <span className="oi oi-trash"/>
+      <button
+        className="btn btn-danger float-right"
+        title="Delete deck"
+        onClick={() => handleDelete(deck.id)}
+      >
+        <span className="oi oi-trash" />
       </button>
 
-    <div className="Deck container">
-        <CardList deck={deck} deleteCardHandler={deleteCardHandler}/>
-    </div>
+      <div className="Deck container">
+        <CardList deck={deck} deleteCardHandler={deleteCardHandler} />
+      </div>
     </main>
   );
 }

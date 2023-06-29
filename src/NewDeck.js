@@ -2,21 +2,21 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { createDeck } from "../src/utils/api";
-import DeckForm from "./DeckForm"
+import DeckForm from "./DeckForm";
 
 function NewDeck() {
-  const history = useHistory()
-  const submitLabel = "Submit"
-  const cancelLabel = "Cancel"
+  const history = useHistory();
+  const submitLabel = "Submit";
+  const cancelLabel = "Cancel";
 
   function cancel() {
-    history.goBack()
+    history.goBack(); //send user back after cancel
   }
 
-  function submitHandler (deck) {
-    //add new data to deck data
-    createDeck(deck).then((response) => history.push(`/decks/${response.id}`)) //take user to new deck id page
-    };
+  function submitHandler(deck) {
+    //adds new data to deck data
+    createDeck(deck).then((response) => history.push(`/decks/${response.id}`)); //take user to new deck id page
+  }
 
   return (
     <main className="container deck-view">
@@ -32,12 +32,12 @@ function NewDeck() {
       </nav>
       <h1>Create Deck</h1>
 
-     <DeckForm
+      <DeckForm
         onCancel={cancel}
         onSubmit={submitHandler}
         submitLabel={submitLabel}
         cancelLabel={cancelLabel}
-     />
+      />
     </main>
   );
 }
