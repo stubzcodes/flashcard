@@ -56,7 +56,7 @@ function AddCard() {
             </Link>
           </li>
           <li className="breadcrumb-item">
-            <Link to={`/decks/${deckId}`}>Deck {deck.name}</Link>
+            <Link to={`/decks/${deckId}`}>{deck.name}</Link>
           </li>
           <li className="breadcrumb-item active">Add Card</li>
         </ol>
