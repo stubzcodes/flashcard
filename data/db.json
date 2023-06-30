@@ -16,9 +16,9 @@
       "id": 3
     },
     {
-      "name": "vbvc",
-      "description": "bvcvbvc",
-      "id": 5
+      "name": "Everglades National Park!",
+      "description": "My favorite things about ENP",
+      "id": 6
     }
   ],
   "cards": [
@@ -78,8 +78,8 @@
       "id": 11
     },
     {
-      "front": "",
-      "back": "",
+      "front": "Why so lonely?",
+      "back": "I was empty",
       "deckId": 1,
       "id": 12
     },
@@ -88,12 +88,6 @@
       "back": "----------",
       "deckId": 1,
       "id": 13
-    },
-    {
-      "front": "----------------",
-      "back": "-------------",
-      "deckId": 1,
-      "id": 14
     },
     {
       "front": "*************",
@@ -174,22 +168,22 @@
       "id": 27
     },
     {
-      "front": "a card",
-      "back": "card",
-      "deckId": 5,
-      "id": 28
+      "front": "Alligators",
+      "back": "scaly dogs",
+      "deckId": 6,
+      "id": 31
     },
     {
-      "front": "card 2",
-      "back": "2",
-      "deckId": 5,
-      "id": 29
+      "front": "Anhingas",
+      "back": "Elementary school mascot",
+      "deckId": 6,
+      "id": 32
     },
     {
-      "front": "card 3",
-      "back": "3",
-      "deckId": 5,
-      "id": 30
+      "front": "Airboat rides!",
+      "back": "best way to travel",
+      "deckId": 6,
+      "id": 34
     }
   ]
 }
